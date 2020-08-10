@@ -18,6 +18,7 @@ docs/_build/
 __pycache__
 # Taken out of list for grading
 # .env_file
+# Testing codebuild
 
 # Coverage reports
 htmlcov/
