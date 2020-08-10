@@ -28,3 +28,8 @@ htmlcov/
 # Direnv
 .envrc
 .direnv
+aws*
+.aws*
+*aws
+trust.json
+*auth-patch.yml
