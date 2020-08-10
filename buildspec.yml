@@ -1,8 +1,11 @@
 ---
   version: 0.2
   
+  
   phases:
     install:
+      runtime-versions:
+        python: 3.7
       commands:
         - curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
         - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
@@ -13,7 +16,6 @@
         commands:
           - TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
           - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' simple_jwt_api.yml
-          - sed -i 's@JWT_SECRET_VALUE@'"$JWT_SECRET"'@' simple_jwt_api.yml
           - $(aws ecr get-login --no-include-email)
           - export KUBECONFIG=$HOME/.kube/config
           - pip install --upgrade pip
@@ -38,8 +40,7 @@
         - ls
   artifacts:
     files: build.json
-  
   env:
-    parameter-store:         
+    parameter-store:
       JWT_SECRET: JWT_SECRET
-  
+      LOG_LEVEL: LOG_LEVEL
